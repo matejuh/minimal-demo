@@ -19,9 +19,11 @@ import liquibase.resource.ClassLoaderResourceAccessor
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.RouterFunctions
@@ -32,6 +34,7 @@ import javax.sql.DataSource
 
 @Configuration
 @ComponentScan(basePackages = ["com.matejuh.minimaldemo"])
+@PropertySource("classpath:application.properties")
 class AppConfig {
 
     @Bean
@@ -50,13 +53,14 @@ class AppConfig {
     }
 
     @Bean
-    fun datasource(registry: MeterRegistry): DataSource {
-        val dbUserName = "user"
-        val dbPassword = "pass"
-        val url = "jdbc:tc:postgresql:12.4:///spring-demo?TC_TMPFS=/testtmpfs:rw"
-
+    fun datasource(
+        @Value("\${db.username}") dbUserName: String,
+        @Value("\${db.username}") dbPassword: String,
+        @Value("\${db.url}") dbUrl: String,
+        registry: MeterRegistry
+    ): DataSource {
         val hikariConfig = HikariConfig().apply {
-            jdbcUrl = url
+            jdbcUrl = dbUrl
             username = dbUserName
             password = dbPassword
         }
