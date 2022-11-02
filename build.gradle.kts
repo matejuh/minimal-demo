@@ -24,6 +24,7 @@ repositories {
 dependencies {
 	implementation("org.springframework:spring-webflux")
 	implementation("org.springframework:spring-context")
+	implementation("org.springframework.boot:spring-boot")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -53,6 +54,7 @@ dependencies {
 	liquibaseRuntime("info.picocli:picocli:4.6.3")
 
 	testImplementation("org.springframework:spring-test")
+	testImplementation("org.springframework.boot:spring-boot-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")

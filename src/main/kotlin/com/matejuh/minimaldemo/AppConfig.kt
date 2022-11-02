@@ -20,17 +20,19 @@ import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.embedded.netty.NettyReactiveWebServerFactory
+import org.springframework.boot.web.reactive.server.ReactiveWebServerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter
+import org.springframework.http.server.reactive.HttpHandler
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.RouterFunctions
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.coRouter
-import reactor.netty.http.server.HttpServer
 import javax.sql.DataSource
+
 
 @Configuration
 @ComponentScan(basePackages = ["com.matejuh.minimaldemo"])
@@ -88,10 +90,8 @@ class AppConfig {
     }
 
     @Bean
-    fun server(routes: List<RouterFunction<out ServerResponse>>): HttpServer =
-        HttpServer
-            .create()
-            .port(9001)
-            .handle(ReactorHttpHandlerAdapter(RouterFunctions.toHttpHandler(routes.reduce { r1, r2 -> r1.andOther(r2) })))
-            .accessLog(true)
+    fun nettyReactiveWebServerFactory(): ReactiveWebServerFactory = NettyReactiveWebServerFactory(9001)
+
+    @Bean
+    fun webHandler(routes: RouterFunction<out ServerResponse>): HttpHandler = RouterFunctions.toHttpHandler(routes)
 }
