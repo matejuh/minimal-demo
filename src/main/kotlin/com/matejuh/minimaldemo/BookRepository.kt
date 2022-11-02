@@ -5,7 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.runBlocking
 import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 
+@Repository
 class BookRepository(private val jooq: DSLContext) {
     suspend fun create(createBook: CreateBook): BookId =
         jooq.insertInto(

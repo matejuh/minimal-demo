@@ -52,6 +52,7 @@ dependencies {
 	/* picocli needed for liquibase which doesn't include it as a transitive dependency :| */
 	liquibaseRuntime("info.picocli:picocli:4.6.3")
 
+	testImplementation("org.springframework:spring-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")

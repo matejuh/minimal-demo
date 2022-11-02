@@ -9,18 +9,25 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import net.javacrumbs.jsonunit.JsonMatchers
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.server.PathContainer
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.util.pattern.PathPatternParser
+import reactor.netty.http.server.HttpServer
 import java.net.ServerSocket
 
-class MinimalDemoApplicationTests {
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(classes = [ AppConfig::class ])
+class MinimalDemoApplicationTests(@Autowired private val server: HttpServer) {
 
 	init {
 		val port = ServerSocket(0).use { it.localPort }
-		server(port).bindNow()
+		server.port(port).bindNow()
 		RestAssured.port = port
 		RestAssured.requestSpecification = RequestSpecBuilder()
 			.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
