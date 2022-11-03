@@ -24,7 +24,11 @@ repositories {
 dependencies {
 	implementation("org.springframework:spring-webflux")
 	implementation("org.springframework:spring-context")
+	implementation("org.springframework:spring-tx")
+	implementation("org.springframework:spring-jdbc")
 	implementation("org.springframework.boot:spring-boot")
+	implementation("org.springframework.boot:spring-boot-autoconfigure")
+	implementation("org.springframework.boot:spring-boot-actuator-autoconfigure")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
